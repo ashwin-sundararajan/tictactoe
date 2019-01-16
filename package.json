@@ -4,15 +4,34 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "express": "^4.16.4",
+    "ramda": "^0.26.1",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "concurrently": "^4.1.0",
     "nodemon": "^1.18.9"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "server": "nodemon --ignore src/ --ignore public/js/",
+    "transpile": "babel src/script.js --watch --out-file public/js/script-compiled.js",
+    "start:dev": "concurrently \"npm:server\" \"npm:transpile\""
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": "last 2 versions",
+          "useBuiltIns": "entry"
+        }
+      ]
+    ]
   },
   "keywords": [],
   "author": "",
