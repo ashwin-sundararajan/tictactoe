@@ -11,14 +11,14 @@ const lines = [
   [2, 5, 8]
 ]
 
-const same3 = ([a, b, c]) => a === b === c
+const same3 = ([a, b, c]) => a === b && b === c
 
 const checkWinner = state => {
   const translate = ([a, b, c]) => [state[a], state[b], state[c]]
   return lines
     .map(translate)
     .reduce((winner, line) =>
-      winner ? winner : same3(line) ? line[0] : '')
+      winner ? winner : same3(line) ? line[0] : '', '')
 }
 
 const validMove = (state, pos) => state[pos] === ''

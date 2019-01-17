@@ -9,6 +9,9 @@ socket.on('connect', function () {
 socket.on('echo', function (message) {
   console.log(message);
 });
+socket.on('update', function (board) {
+  console.log(board);
+});
 
 function echo(message) {
   socket.emit('echo', message);
