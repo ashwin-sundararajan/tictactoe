@@ -18,6 +18,10 @@ class Game {
   }
 
   playMove(playerId, pos) {
+    if (!engine.validMove(this.board, pos)) return
+
+    if (!this.playerXId || !this.playerOId) return
+
     if (this.permittedToMove(playerId) && !this.winner) {
       this.board = engine.playMove(
         this.board,
@@ -30,16 +34,21 @@ class Game {
   }
 
   permittedToMove(playerId) {
-    console.log(playerId)
+    // console.log(playerId, this)
+
     switch (this.nextMove) {
       case 'X':
         if (playerId === this.playerXId) {
+          console.log('HERE X')
           return true
         }
+        break;
       case 'O':
         if (playerId === this.playerOId) {
+          console.log('HERE O')
           return true
         }
+        break;
       default:
         return false
     }

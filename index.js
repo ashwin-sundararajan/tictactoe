@@ -37,9 +37,11 @@ io.on('connection', function(socket) {
     const game = store[gameId]
 
     if (game) {
+      socket.join(gameId)
+      if (game.playerXId && game.playerOId)
+        return cb(false, 'joined as a spectator')
       game.addPlayerToGame(socket.id)
       cb(false, 'success')
-      socket.join(gameId)
     } else {
       cb(true, 'game not found')
     }
@@ -51,8 +53,13 @@ io.on('connection', function(socket) {
 
     if (game) {
       game.playMove(socket.id, pos)
-      console.log(game)
+      // console.log(game)
       io.to(gameId).emit('update', game.board)
+      if (game.winner) {
+        io.to(gameId).emit('winner', game.winner)
+      } else if (game.board.every(spot => spot !== '')) {
+        io.to(gameId).emit('drawn')
+      }
     }
 
   })
